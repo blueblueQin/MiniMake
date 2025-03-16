@@ -10,6 +10,12 @@ int main(int argc, char *argv[]){
     int helpfound = identifyinput(argc, argv);//检测--help
     if(helpfound==1) {return 0;}
 
-    system("ls -l");//测试输出指令
+    system("pwd\n");//测试输出指令
+
+    int vfound = findv(argc,argv);
+    voidprocessfile("./Makefile",vfound);
+    FILE *file1 = fopen("./Makefile","r");
+
+
     return 0;
 }
