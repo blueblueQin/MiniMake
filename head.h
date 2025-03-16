@@ -5,4 +5,6 @@ int identifyinput(int a, char **words);
 
 int findhelp(int a,char *words[]);
 
+int findminimake(int a,char *words);
+
 #endif 
