@@ -13,8 +13,7 @@ int main(int argc, char *argv[]){
     system("pwd\n");//测试输出指令
 
     int vfound = findv(argc,argv);
-    voidprocessfile("./Makefile",vfound);
-    FILE *file1 = fopen("./Makefile","r");
+    processfile("./Makefile",vfound);
 
 
     return 0;

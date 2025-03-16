@@ -35,7 +35,7 @@ int findv(int a,char **words){
     }
     return k;
 }
-
+    
 int identifyinput(int a, char **words) {
     int k=findhelp(a, words);
     for (int i=0;i<a;i++) {

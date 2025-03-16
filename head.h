@@ -9,7 +9,7 @@ int findminimake(int a,char *words);
 
 int findv(int a,char **words);
 
-voidprocessfile(const char *file1,int vfound);
+void processfile(const char *file1,int vfound);
 
 typedef struct {
     char *target;
