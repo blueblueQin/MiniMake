@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "head.h"
 
-void processfile(const char *file1,int vfound){
+void processfile(const char *file1,int vfound, char *content[]){
 
     FILE *inputfile = fopen(file1, "r");
     if (inputfile == NULL) {
@@ -24,6 +25,10 @@ void processfile(const char *file1,int vfound){
     char line[1024];
     int targetmarker=1;
     int linenumber=0;
+    int contentnumber=0;
+
+    int cntt=0;
+
     while (fgets(line, sizeof(line), inputfile)) {
         linenumber++;
         int length=strlen(line);
@@ -50,7 +55,22 @@ void processfile(const char *file1,int vfound){
         if (vfound) {
             fprintf(outputfile, "%s\n", line);//输出到文件
         }
+
         printf("%s\n", line); // 输出
+
+        printf("contentnumber: %d \n",contentnumber);
+
+        strcpy(content[contentnumber],line);
+        /*int cnt=0;
+        while(line[cnt]){
+            content[contentnumber][cntt]=line[cnt];
+            cnt++;
+            cntt++;
+        }*/
+
+        printf("content[%d]:%s \n",contentnumber,content[contentnumber]);
+
+        contentnumber++;
 
         //检查异常
 
@@ -60,15 +80,37 @@ void processfile(const char *file1,int vfound){
                 if(targetmarker==1) {printf("Line %d: Command found before rule\n",linenumber);continue;}
             }
             else printf("Line %d: Missing colon in target definition\n", linenumber);
-            continue;//说明不是rule
+            continue;//说明不是target
         }
         else {
-            targetmarker=0;//本行是rule 下一行可以是command
+            targetmarker=0;//本行是target 下一行可以是command
         }
     }
 
 
     fclose(inputfile);
-    fclose(outputfile);
+    if (vfound) fclose(outputfile);
     return ;
+}
+
+
+
+int getrule(char *content[] , char *targetlines[] , char *commandlines[] ){
+    int targetnumber=0;
+    int commandnumber=0;
+    int linenumber=0;
+    while(content[linenumber]){
+        if(content[linenumber][0]!='\t'){
+            strcpy(targetlines[targetnumber],content[linenumber]);
+            targetnumber++;
+            linenumber++;
+            continue;
+        }
+        while(content[linenumber][0]=='\t'){
+            strcat(commandlines[commandnumber],content[linenumber]);
+            linenumber++;
+        }
+        commandnumber++;
+    }
+    return targetnumber;
 }
