@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 
     system("pwd\n");//测试输出指令
 
-    static char content[10][1030]={'\0'};
+    static char content[128][1024]={'\0'};
     int vfound = findv(argc,argv);
     processfile("./Makefile",vfound,content);
 
@@ -58,10 +58,6 @@ int main(int argc, char *argv[]){
     }
     printf("targetnumber = %d\n",targetnumber);
     printf("\nfollowings are analysing rules\n\n");
-
-
-
-
 
     Rule rules[10];
     for(int i=0;i<targetnumber;i++){

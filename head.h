@@ -9,11 +9,11 @@ int findminimake(int a,char *word);
 
 int findv(int a,char **words);
 
-void processfile(const char *file1,int vfound, char *content[]);
+void processfile(const char *file1,int vfound, char content[][1024]);
 
-int getrule(char *content[] , char *targetlines[] , char *commandlines[] );
+int getrule(char content[][1024] , char targetlines[][128] , char commandlines[][128] );
 
-int getrule2(char *targetlines[],char *commandlines[],const char *file);
+int getrule2(char targetlines[][128],char commandlines[][128],const char *file);
 
 char* syscharfound(int a,char *word);
 

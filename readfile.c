@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "head.h"
 
-void processfile(const char *file1,int vfound, char *content[]){
+void processfile(const char *file1,int vfound, char content[][1024]){
 
     FILE *inputfile = fopen(file1, "r");
     if (inputfile == NULL) {
@@ -95,7 +95,7 @@ void processfile(const char *file1,int vfound, char *content[]){
 
 
 
-int getrule(char *content[] , char *targetlines[] , char *commandlines[] ){
+int getrule(char content[][1024] , char targetlines[][128] , char commandlines[][128] ){
     int targetnumber=0;
     int commandnumber=0;
     int linenumber=0;
@@ -116,7 +116,7 @@ int getrule(char *content[] , char *targetlines[] , char *commandlines[] ){
 }
 
 
-int getrule2(char *targetlines[],char *commandlines[],const char *file){
+int getrule2(char targetlines[][128],char commandlines[][128],const char *file){
 
     FILE *inputfile = fopen(file, "r");
     if (inputfile == NULL) {
