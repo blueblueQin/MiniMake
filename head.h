@@ -13,6 +13,8 @@ void processfile(const char *file1,int vfound, char *content[]);
 
 int getrule(char *content[] , char *targetlines[] , char *commandlines[] );
 
+int getrule2(char *targetlines[],char *commandlines[],const char *file);
+
 
 #pragma once
 typedef struct rulestruct{
@@ -23,8 +25,12 @@ typedef struct rulestruct{
     int commandcount;                        // 命令数量
 } Rule;
 
-int analyserule(const char *target_line, const char *command_line, Rule *rule, const Rule rules[], int rule_count);
+int analyserule(const char *target_line, const char *command_line, Rule *rule);
+
+int checkrule(Rule *rule, const Rule rules[],int rule_count,int sense);
 
 Rule *parse_makefile(const char *filename, int *rule_count);
+
+void printrule(Rule *rule,int count);
 
 #endif 

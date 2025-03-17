@@ -58,9 +58,9 @@ void processfile(const char *file1,int vfound, char *content[]){
 
         printf("%s\n", line); // 输出
 
-        printf("contentnumber: %d \n",contentnumber);
+        //printf("contentnumber: %d \n",contentnumber);
 
-        strcpy(content[contentnumber],line);
+        //strcpy(content[contentnumber],line);
         /*int cnt=0;
         while(line[cnt]){
             content[contentnumber][cntt]=line[cnt];
@@ -68,9 +68,9 @@ void processfile(const char *file1,int vfound, char *content[]){
             cntt++;
         }*/
 
-        printf("content[%d]:%s \n",contentnumber,content[contentnumber]);
+        //printf("content[%d]:%s \n",contentnumber,content[contentnumber]);
 
-        contentnumber++;
+        //contentnumber++;
 
         //检查异常
 
@@ -113,4 +113,45 @@ int getrule(char *content[] , char *targetlines[] , char *commandlines[] ){
         commandnumber++;
     }
     return targetnumber;
+}
+
+
+int getrule2(char *targetlines[],char *commandlines[],const char *file){
+
+    FILE *inputfile = fopen(file, "r");
+    if (inputfile == NULL) {
+        perror("Failed to open file ");printf("%s \n",file);
+        return -1;
+    }
+    char line[1024];
+    int targetnumber=0;
+    int commandnumber=-1;
+    int linenumber=0;
+
+    printf("out of getrule2 while\n");
+
+    while (fgets(line, sizeof(line), inputfile)){
+        printf("in of getrule2 while\n");
+
+        if(line[0]!='\t'){
+            strcpy(targetlines[targetnumber],line);
+            printf("in of strcpy\n");
+
+            printf("%s\n",line);
+
+            targetnumber++;
+            commandnumber++; 
+            linenumber++;
+            continue;
+        }
+        if(line[0]=='\t'){
+            strcat(commandlines[commandnumber],line);
+
+            printf("%s\n",line);
+
+            linenumber++;
+        }
+    }
+    return targetnumber;
+
 }

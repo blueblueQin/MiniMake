@@ -14,7 +14,7 @@ int file_exists(const char *path) {
     return 0;  // 文件不存在
 }
 
-int analyserule(const char *target_line, const char *command_line, Rule *rule, const Rule rules[], int rule_count){
+int analyserule(const char *target_line, const char *command_line, Rule *rule){
 
     char media[256];
 
@@ -44,16 +44,21 @@ int analyserule(const char *target_line, const char *command_line, Rule *rule, c
         rule->commandcount++;
         command=strtok(NULL,"\t");
     }
+    return 0;
+}
 
 
-    for (int i=0;i<rule_count;i++) {//检查是否相同
+
+
+
+int checkrule(Rule *rule, const Rule rules[],int rule_count,int sense){
+
+    for (int i=sense+1;i<rule_count;i++) {//检查是否相同
         if (strcmp(rule->target,rules[i].target)==0) {
             printf("Duplicate target definition '%s'\n", rule->target);
             return 1;
         }
     }
-
-
 
     // 检查依赖文件是否存在或是否为已定义的目标
     for (int i = 0; i < rule->dependencycount; i++) {
@@ -66,11 +71,24 @@ int analyserule(const char *target_line, const char *command_line, Rule *rule, c
                     break;
                 }
             }
-            if (!istarget) {
+            if (!istarget && sense!=0) {
                 printf("Invalid dependency '%s'\n", rule->dependencies[i]);
                 return 1;
             }
         }
     }
     return 0;
+}
+
+
+void printrule(Rule *rule,int count){
+    printf("\nThis is no.%d rule\n",count);
+    printf("%s : ",rule->target);
+    for(int i=0;i<rule->dependencycount;i++){
+        printf("%s ",rule->dependencies[i]);
+    }
+    printf("\n");
+    for(int i=0;i<rule->commandcount;i++){
+        printf("\t%s\n",rule->commands[i]);
+    }
 }
