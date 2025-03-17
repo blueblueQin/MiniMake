@@ -21,11 +21,15 @@ int findhelp(int a,char *words[]){
     return 0;
 }
 
-int findminimake(int a,char *words){
-        if (strcmp(words, "minimake") == 0) {
+int findminimake(int a,char *word){
+        if (strcmp(word, "minimake") == 0) {
             return 1;
         }
     return 0;
+}
+char* syscharfound(int a,char *word){
+    if(word[0]!='-') return word;
+    return "ojbk";
 }
 
 int findv(int a,char **words){

@@ -12,6 +12,9 @@ int main(int argc, char *argv[]){
     int helpfound = identifyinput(argc, argv);//检测--help
     if(helpfound==1) {return 0;}
 
+    char* syschar={'\0'};
+    if(argc>2) syschar=syscharfound(argc,argv[2]);//检测输入的minimake之后的一个target
+
     system("pwd\n");//测试输出指令
 
     static char content[10][1030]={'\0'};
@@ -77,8 +80,10 @@ int main(int argc, char *argv[]){
         Rule *rule = & rules[i];
         printrule(rule,i+1);
     }
-
-    system(rules[0].commands[0]);
+    
+    for(int i=0;i<targetnumber;i++){
+        if(!strcmp(syschar,rules[i].target)) system(rules[i].commands[i]);
+    }
 
     return 0;
 }

@@ -5,7 +5,7 @@ int identifyinput(int a, char **words);
 
 int findhelp(int a,char *words[]);
 
-int findminimake(int a,char *words);
+int findminimake(int a,char *word);
 
 int findv(int a,char **words);
 
@@ -14,6 +14,8 @@ void processfile(const char *file1,int vfound, char *content[]);
 int getrule(char *content[] , char *targetlines[] , char *commandlines[] );
 
 int getrule2(char *targetlines[],char *commandlines[],const char *file);
+
+char* syscharfound(int a,char *word);
 
 
 #pragma once
