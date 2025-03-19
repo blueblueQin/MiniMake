@@ -1,6 +1,9 @@
 #ifndef head.h
 #define head.h
 
+#include <sys/stat.h>
+#include <time.h>
+
 int identifyinput(int a, char **words);
 
 int findhelp(int a,char *words[]);
@@ -34,5 +37,30 @@ int checkrule(Rule *rule, const Rule rules[],int rule_count,int sense);
 Rule *parse_makefile(const char *filename, int *rule_count);
 
 void printrule(Rule *rule,int count);
+
+// 定义图节点结构体
+typedef struct Nodee {
+    char target[32]; // 目标或依赖文件名
+    struct Nodee *next;           // 邻接表指针
+} Node;
+
+// 定义图结构体
+typedef struct graphh{
+    Node *nodes[100];      // 邻接表
+    int in_degree[100];    // 入度
+    int node_count;              // 顶点数量
+} Graph;
+
+time_t getfilemtime(const char *filename);
+
+int needrebuild(const char *target, const char *dependencies[], int dependencynumber);
+
+int find_or_add_node(Graph *graph, const char *target);
+
+void add_edge(Graph *graph, const char *fromchar, const char *tochar);
+
+void topological_sort(Graph *graph, Rule rules[], int rule_count);
+
+void build_targets(Graph *graph, Rule rules[], int rule_count);
 
 #endif 

@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "head.h"
+#include <sys/stat.h>
+#include <time.h>
 
 
 
@@ -15,7 +18,7 @@ int main(int argc, char *argv[]){
     char* syschar={'\0'};
     if(argc>2) syschar=syscharfound(argc,argv[2]);//检测输入的minimake之后的一个target
 
-    system("pwd\n");//测试输出指令
+    //system("pwd\n");//测试输出指令
 
     static char content[128][1024]={'\0'};
     int vfound = findv(argc,argv);
@@ -29,7 +32,7 @@ int main(int argc, char *argv[]){
 
 
     
-    FILE *inputfile = fopen("Minimake_cleared.mk", "r");
+    FILE *inputfile = fopen("Makefile", "r");
     if (inputfile == NULL) {
         perror("Failed to open file \n");
         return 0;
@@ -57,6 +60,9 @@ int main(int argc, char *argv[]){
         }
     }
     printf("targetnumber = %d\n",targetnumber);
+    
+    
+
     printf("\nfollowings are analysing rules\n\n");
 
     Rule rules[10];
@@ -71,8 +77,8 @@ int main(int argc, char *argv[]){
         }
     }
 
-    //输出存储的rules
-    for(int i=0;i<targetnumber;i++){
+    
+    for(int i=0;i<targetnumber;i++){//输出存储的rules
         Rule *rule = & rules[i];
         printrule(rule,i+1);
     }
@@ -80,6 +86,37 @@ int main(int argc, char *argv[]){
     for(int i=0;i<targetnumber;i++){
         if(!strcmp(syschar,rules[i].target)) system(rules[i].commands[i]);
     }
+
+
+
+
+
+    
+    Graph graph = {0};// 构建依赖图
+    for (int i = 0; i < targetnumber; i++) {
+        for (int j = 0; j < rules[i].dependencycount; j++) {
+            add_edge(&graph, rules[i].dependencies[j], rules[i].target);
+        }
+    }
+
+    
+    topological_sort(&graph, rules, targetnumber);// 拓扑排序
+
+    
+    build_targets(&graph, rules, targetnumber);// 构建目标
+
+    
+    for (int i=0;i<graph.node_count;i++) {// 释放内存
+
+        Node *current=graph.nodes[i];
+
+        while (current!=NULL) {
+            Node *temp=current;
+            current=current->next;
+            free(temp);
+        }
+    }
+
 
     return 0;
 }
