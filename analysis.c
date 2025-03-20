@@ -19,7 +19,7 @@ int analyserule(const char *target_line, const char *command_line, Rule *rule){
     char media[256];
 
     strcpy(media, target_line);
-    char *targetpart = strtok(media, ":");
+    char *targetpart = strtok(media, ":");//从冒号往前拆
     char *dependenciespart = strtok(NULL, "\n");
 
     strncpy(rule->target, targetpart, 32);// 提取目标
@@ -91,4 +91,5 @@ void printrule(Rule *rule,int count){
     for(int i=0;i<rule->commandcount;i++){
         printf("\t%s\n",rule->commands[i]);
     }
+    return ;
 }

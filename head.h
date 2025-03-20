@@ -3,6 +3,8 @@
 
 #include <sys/stat.h>
 #include <time.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 int identifyinput(int a, char **words);
 
@@ -62,5 +64,7 @@ void add_edge(Graph *graph, const char *fromchar, const char *tochar);
 void topological_sort(Graph *graph, Rule rules[], int rule_count);
 
 void build_targets(Graph *graph, Rule rules[], int rule_count);
+
+int sysreplace(const char *command);
 
 #endif 

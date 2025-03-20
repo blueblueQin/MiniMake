@@ -141,7 +141,18 @@ void build_targets(Graph *graph, Rule rules[], int rule_count) {// 构建目标
             for (int i = 0; i < rule_count; i++) {// 执行构建
                 if (strcmp(rules[i].target, target) == 0) {
                     for (int j = 0; j < rules[i].commandcount; j++) {
-                        system(rules[i].commands[j]);
+
+
+
+                        int status = sysreplace(rules[i].commands[j]);
+                        //system(rules[i].commands[j]);
+                        if(status<0) {
+                            printf("build targets failed\n");
+                            return ;
+                        }
+
+
+                        
                     }
                     break;
                 }
