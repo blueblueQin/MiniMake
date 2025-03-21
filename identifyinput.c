@@ -16,6 +16,10 @@ int findhelp(int a,char *words[]){
             printf("Report bugs to ...\n");
             return 1;
         }
+        else if(words[i][0]=='-'&& strcmp(words[i], "--verbose") && strcmp(words[i], "-v")){
+            printf("invalid input\n");
+            return 1;
+        }
     }
     printf("\tno help\n");
     return 0;

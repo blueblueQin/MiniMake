@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     int helpfound = identifyinput(argc, argv);//检测--help
     if(helpfound==1) {return 0;}
 
-    char* syschar={'\0'};//找输入的特定target
+    char* syschar={"notfound"};//找输入的特定target
     for(int i=2;i<argc;i++){
         char strgg=argv[i][0];
         if(!(strgg == '-' )) {

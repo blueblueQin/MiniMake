@@ -82,6 +82,7 @@ void topological_sort(Graph *graph, Rule rules[], int rule_count) {// 拓扑排�
 
     
     printf("Topological Order:\n");// 输出拓扑排序结果
+    
     while (front < rear) {
         int u = queue[front++];
         printf("%s\n", graph->nodes[u]->target);
@@ -122,7 +123,7 @@ void build_targets(Graph *graph, Rule rules[], int rule_count) {// 构建目标
         int u = queue[front++];
         const char *target = graph->nodes[u]->target;
 
-        const char *dependencies[10];// 获取依赖文件
+        const char *dependencies[10];// 获取依赖
         int dependency_count = 0;
         for (int i = 0; i < rule_count; i++) {
             if (strcmp(rules[i].target, target) == 0) {
@@ -138,9 +139,9 @@ void build_targets(Graph *graph, Rule rules[], int rule_count) {// 构建目标
         if (result == 1) {
             printf("Building target: %s\n", target);
             
-            for (int i = 0; i < rule_count; i++) {// 执行构建
+            for (int i = 0; i < rule_count; i++) {// 找出对应目标的依赖和命令执行构建
                 if (strcmp(rules[i].target, target) == 0) {
-                    for (int j = 0; j < rules[i].commandcount; j++) {
+                    if(rules[i].dependencycount != 0) for (int j = 0; j < rules[i].commandcount; j++) {
 
 
 
@@ -173,7 +174,7 @@ void build_targets(Graph *graph, Rule rules[], int rule_count) {// 构建目标
                     break;
                 }
             }
-            if (v != -1 && --graph->in_degree[v] == 0) {
+            if (v != -1 && (--graph->in_degree[v]) == 0) {
                 queue[rear++] = v;
             }
             current = current->next;
